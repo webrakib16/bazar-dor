@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent, type ChangeEvent } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import { authClient } from "@/lib/auth-client";
 
 export default function ProfilePage() {
@@ -14,8 +14,6 @@ export default function ProfilePage() {
 
   const [name, setName] = useState(() => user?.name ?? "");
   const [avatar, setAvatar] = useState(() => user?.image ?? "");
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
   const [updating, setUpdating] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
 
@@ -25,22 +23,21 @@ export default function ProfilePage() {
     }
   }, [session, isPending, router]);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
 
     if (!file) return;
 
-    setError("");
-    setMessage("");
-
     if (!file.type.startsWith("image/")) {
-      setError("একটি সঠিক ছবি নির্বাচন করুন।");
+      toast.error("একটি সঠিক ছবি নির্বাচন করুন।");
       event.target.value = "";
       return;
     }
 
     if (file.size > 1024 * 1024) {
-      setError("ছবির সাইজ ১ MB-এর কম হতে হবে।");
+      toast.error("ছবির সাইজ ১ MB-এর কম হতে হবে।");
       event.target.value = "";
       return;
     }
@@ -50,24 +47,24 @@ export default function ProfilePage() {
     reader.onload = () => {
       if (typeof reader.result === "string") {
         setAvatar(reader.result);
-        setMessage("ছবি নির্বাচন করা হয়েছে। সংরক্ষণ করতে আপডেট চাপুন।");
+        toast.info("ছবি নির্বাচন করা হয়েছে। সংরক্ষণ করতে আপডেট চাপুন।");
       }
     };
 
     reader.onerror = () => {
-      setError("ছবিটি পড়া যায়নি। আবার চেষ্টা করুন।");
+      toast.error("ছবিটি পড়া যায়নি। আবার চেষ্টা করুন।");
     };
 
     reader.readAsDataURL(file);
   };
 
-  const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
+  const handleUpdate = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
-    setError("");
-    setMessage("");
 
     if (!name.trim()) {
-      setError("আপনার নাম লিখুন।");
+      toast.error("আপনার নাম লিখুন।");
       return;
     }
 
@@ -80,16 +77,17 @@ export default function ProfilePage() {
       });
 
       if (result.error) {
-        setError(
-          result.error.message || "তথ্য আপডেট করা যায়নি। আবার চেষ্টা করুন।"
+        toast.error(
+          result.error.message ||
+            "তথ্য আপডেট করা যায়নি। আবার চেষ্টা করুন।"
         );
         return;
       }
 
-      setMessage("আপনার প্রোফাইল সফলভাবে আপডেট হয়েছে।");
+      toast.success("আপনার প্রোফাইল সফলভাবে আপডেট হয়েছে!");
       router.refresh();
     } catch {
-      setError("সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+      toast.error("সমস্যা হয়েছে। আবার চেষ্টা করুন।");
     } finally {
       setUpdating(false);
     }
@@ -97,20 +95,20 @@ export default function ProfilePage() {
 
   const handleSignOut = async () => {
     setSigningOut(true);
-    setError("");
 
     try {
       const result = await authClient.signOut();
 
       if (result.error) {
-        setError("সাইন আউট করা যায়নি। আবার চেষ্টা করুন।");
+        toast.error("সাইন আউট করা যায়নি। আবার চেষ্টা করুন।");
         return;
       }
 
+      toast.success("আপনি সফলভাবে লগআউট করেছেন!");
       router.replace("/");
       router.refresh();
     } catch {
-      setError("সাইন আউট করার সময় সমস্যা হয়েছে।");
+      toast.error("সাইন আউট করার সময় সমস্যা হয়েছে।");
     } finally {
       setSigningOut(false);
     }
@@ -119,7 +117,9 @@ export default function ProfilePage() {
   if (isPending || !session || !user) {
     return (
       <main className="flex min-h-[60vh] items-center justify-center px-4">
-        <p className="text-sm text-gray-500">প্রোফাইল লোড হচ্ছে...</p>
+        <p className="text-sm text-gray-500">
+          প্রোফাইল লোড হচ্ছে...
+        </p>
       </main>
     );
   }
@@ -137,7 +137,6 @@ export default function ProfilePage() {
           </p>
         </div>
 
-        {/* Profile summary */}
         <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex min-w-0 items-center gap-4">
@@ -154,7 +153,9 @@ export default function ProfilePage() {
                     className="h-full w-full object-cover"
                   />
                 ) : (
-                  (user.name || user.email || "U").charAt(0).toUpperCase()
+                  (user.name || user.email || "U")
+                    .charAt(0)
+                    .toUpperCase()
                 )}
               </label>
 
@@ -195,7 +196,6 @@ export default function ProfilePage() {
           </div>
         </section>
 
-        {/* Editable profile form */}
         <section className="mt-5 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
           <h2 className="mb-5 text-lg font-semibold text-gray-900">
             তথ্য পরিবর্তন
@@ -242,24 +242,6 @@ export default function ProfilePage() {
                 এই ফর্ম থেকে ইমেইল পরিবর্তন করা যাবে না।
               </p>
             </div>
-
-            {error && (
-              <p
-                role="alert"
-                className="rounded-lg bg-red-50 p-3 text-sm text-red-700"
-              >
-                {error}
-              </p>
-            )}
-
-            {message && (
-              <p
-                role="status"
-                className="rounded-lg bg-green-50 p-3 text-sm text-green-700"
-              >
-                {message}
-              </p>
-            )}
 
             <button
               type="submit"

@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Bazar Dor — বাজার দর
 
-## Getting Started
+A Bengali-language market price tracking web application for exploring everyday product prices, browsing categories, and checking which products have rising or falling prices.
 
-First, run the development server:
+Live Demo
 
-```bash
+- Live Website: "Add deployed website URL here" (#)
+- Local Website: http://localhost:3000
+
+Features
+
+- Browse products and current prices
+- Explore products by category
+- View product details
+- Identify products with rising or falling prices
+- Bengali-language product and price information
+- Email and password authentication
+- Google and GitHub sign-in
+- Profile and sign-out functionality
+- Responsive interface
+
+Tech Stack
+
+- Next.js App Router
+- React
+- TypeScript
+- Tailwind CSS
+- DaisyUI
+- Better Auth
+- MongoDB
+- React Toastify
+
+API
+
+Product and category data are provided by the Bazar Dor API.
+
+Base URL: "https://api.abcz.workers.dev/api/bazardor"
+
+Endpoint| Purpose
+"/categories"| Get categories
+"/products"| Get products
+"/products/1"| Get a product by ID (example)
+"/products?category=chal"| Filter products by category (example)
+
+Run Locally
+
+1. Clone the Repository
+
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd bazar-dor
+
+2. Install Dependencies
+
+npm install
+
+3. Configure Environment Variables
+
+Create a ".env" file in the project root, in the same folder as "package.json".
+
+BETTER_AUTH_SECRET=your_long_random_secret
+BETTER_AUTH_URL=http://localhost:3000
+NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3000
+
+BETTER_AUTH_DB_URL=your_mongodb_connection_string
+
+BETTER_AUTH_GOOGLE_CLIENT_ID=your_google_client_id
+BETTER_AUTH_GOOGLE_SECRET=your_google_client_secret
+
+BETTER_AUTH_GITHUB_CLIENT_ID=your_github_client_id
+BETTER_AUTH_GITHUB_SECRET=your_github_client_secret
+
+Replace the example values with your own credentials. Never upload ".env" or private secrets to GitHub.
+
+4. Start the Development Server
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open "http://localhost:3000" (http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Production Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+npm run build
+npm run start
 
-## Learn More
+Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+src/
+├── app/
+│   ├── api/
+│   │   └── auth/
+│   │       └── [...all]/
+│   │           └── route.ts
+│   ├── auth/
+│   │   ├── sign-in/
+│   │   │   └── page.tsx
+│   │   └── sign-up/
+│   │       └── page.tsx
+│   ├── category/
+│   │   └── [slug]/
+│   │       └── page.tsx
+│   ├── product/
+│   │   └── [slug]/
+│   │       └── page.tsx
+│   ├── profile/
+│   │   └── page.tsx
+│   ├── components/
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── assets/
+├── lib/
+│   ├── auth-client.ts
+│   └── auth.ts
+└── types/
+    └── index.ts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+No license has been specified yet.

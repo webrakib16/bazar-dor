@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { Product, Category } from "@/types";
+import { authClient } from "@/lib/auth-client";
 
 const API_URL =
   "https://api.abcz.workers.dev/api/bazardor/products";
@@ -27,13 +28,26 @@ const formatPercent = (value: number) =>
 
 export default function ProductDetailsPage() {
   const { slug } = useParams<{ slug: string }>();
+  const router = useRouter();
+
+  const { data: session, isPending } = authClient.useSession();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  // লগইন না থাকলে Sign Up পেজে পাঠাবে
   useEffect(() => {
+    if (!isPending && !session) {
+      router.replace("/auth/sign-up");
+    }
+  }, [session, isPending, router]);
+
+  // লগইন করা থাকলেই পণ্যের তথ্য লোড হবে
+  useEffect(() => {
+    if (isPending || !session || !slug) return;
+
     const controller = new AbortController();
 
     async function getProduct() {
@@ -55,7 +69,7 @@ export default function ProductDetailsPage() {
         ]);
 
         if (!productResponse.ok || !categoryResponse.ok) {
-          throw new Error("Failed to fetch data");
+          throw new Error("তথ্য লোড করা যায়নি");
         }
 
         const productResult = await productResponse.json();
@@ -78,7 +92,7 @@ export default function ProductDetailsPage() {
         );
 
         if (!selectedProduct) {
-          throw new Error("Product not found");
+          throw new Error("পণ্য পাওয়া যায়নি");
         }
 
         const selectedCategory = categories.find(
@@ -101,12 +115,20 @@ export default function ProductDetailsPage() {
       }
     }
 
-    if (slug) {
-      getProduct();
-    }
+    getProduct();
 
     return () => controller.abort();
-  }, [slug]);
+  }, [slug, session, isPending]);
+
+  if (isPending || !session) {
+    return (
+      <main className="flex min-h-[60vh] items-center justify-center px-4">
+        <p className="text-sm text-gray-500">
+          অ্যাকাউন্ট যাচাই করা হচ্ছে...
+        </p>
+      </main>
+    );
+  }
 
   if (loading) {
     return (
@@ -131,7 +153,7 @@ export default function ProductDetailsPage() {
             href="/"
             className="mt-4 inline-block text-sm font-medium text-green-700 hover:underline"
           >
-            সব পণ্যে ফিরে যাও
+            হোম পেজে ফিরে যান
           </Link>
         </div>
       </main>
@@ -158,7 +180,6 @@ export default function ProductDetailsPage() {
 
   return (
     <main className="mx-auto min-h-screen max-w-5xl px-4 py-6">
-      {/* Breadcrumb */}
       <nav
         aria-label="Breadcrumb"
         className="mb-5 flex flex-wrap items-center gap-2 text-sm text-gray-500"
@@ -183,7 +204,6 @@ export default function ProductDetailsPage() {
         </span>
       </nav>
 
-      {/* Product header */}
       <section className="flex flex-col justify-between gap-5 rounded-2xl border border-gray-100 bg-white p-5 sm:flex-row sm:items-center sm:p-7">
         <div className="flex items-center gap-4">
           <span className="text-5xl">{product.image}</span>
@@ -230,7 +250,6 @@ export default function ProductDetailsPage() {
         </div>
       </section>
 
-      {/* Price summary */}
       <section className="mt-5 rounded-2xl border border-gray-100 bg-white p-5 sm:p-6">
         <h2 className="text-lg font-bold text-gray-900">
           দামের সারসংক্ষেপ
@@ -238,51 +257,38 @@ export default function ProductDetailsPage() {
 
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="rounded-xl border border-gray-100 p-4">
-            <p className="text-sm text-gray-500">
-              সর্বনিম্ন দাম
-            </p>
-
+            <p className="text-sm text-gray-500">সর্বনিম্ন দাম</p>
             <p className="mt-2 text-xl font-bold text-green-700">
               {minPrice === null ? "—" : formatPrice(minPrice)} টাকা
             </p>
-
             <p className="mt-1 text-xs text-gray-500">
               সবচেয়ে কম দামের বাজার
             </p>
           </div>
 
           <div className="rounded-xl border border-gray-100 p-4">
-            <p className="text-sm text-gray-500">
-              সর্বোচ্চ দাম
-            </p>
-
+            <p className="text-sm text-gray-500">সর্বোচ্চ দাম</p>
             <p className="mt-2 text-xl font-bold text-red-600">
               {maxPrice === null ? "—" : formatPrice(maxPrice)} টাকা
             </p>
-
             <p className="mt-1 text-xs text-gray-500">
               সবচেয়ে বেশি দামের বাজার
             </p>
           </div>
 
           <div className="rounded-xl border border-gray-100 p-4">
-            <p className="text-sm text-gray-500">
-              গড় দাম
-            </p>
-
+            <p className="text-sm text-gray-500">গড় দাম</p>
             <p className="mt-2 text-xl font-bold text-green-700">
               {averagePrice === null
                 ? "—"
                 : formatPrice(Math.round(averagePrice))} টাকা
             </p>
-
             <p className="mt-1 text-xs text-gray-500">
               প্রতি {unit}-এর হিসাবে
             </p>
           </div>
         </div>
 
-        {/* Price history */}
         <h2 className="mb-3 mt-6 text-lg font-bold text-gray-900">
           আগের দামের তুলনা
         </h2>
@@ -299,7 +305,6 @@ export default function ProductDetailsPage() {
               className="rounded-xl bg-gray-50 p-4"
             >
               <p className="text-sm text-gray-500">{item.label}</p>
-
               <p className="mt-2 font-bold text-gray-900">
                 {formatPrice(item.value)} টাকা
               </p>
@@ -308,7 +313,6 @@ export default function ProductDetailsPage() {
         </div>
       </section>
 
-      {/* Market-wise table */}
       <section className="mt-5 rounded-2xl border border-gray-100 bg-white p-5 sm:p-6">
         <h2 className="mb-4 text-lg font-bold text-gray-900">
           বাজারভিত্তিক আজকের দাম
@@ -346,19 +350,15 @@ export default function ProductDetailsPage() {
                     <td className="px-3 py-3 font-medium text-gray-800">
                       {market.market}
                     </td>
-
                     <td className="px-3 py-3 text-gray-600">
                       {market.division}
                     </td>
-
                     <td className="px-3 py-3 text-right">
                       {formatPrice(market.min)} টাকা
                     </td>
-
                     <td className="px-3 py-3 text-right">
                       {formatPrice(market.max)} টাকা
                     </td>
-
                     <td className="px-3 py-3 text-right font-medium text-green-700">
                       {formatPrice(
                         Math.round((market.min + market.max) / 2)
