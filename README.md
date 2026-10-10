@@ -93,14 +93,16 @@ src/
 │   └── auth.ts
 └── types/
     └── index.ts
+```
 
-
-    ## 🔐 Security
+## 🔐 Security
 
 - Keep `.env` out of version control.
 - Never publish database passwords, OAuth secrets, or authentication secrets.
 - Configure OAuth callback URLs for the correct local or deployed domain.
 
+---
+
 ## 📄 License
 
-No license has been specified yet.
+This project is currently not distributed under a specified open-source license.
