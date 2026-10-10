@@ -7,6 +7,7 @@ import ToastProvider from "./components/ToastProvider";
 import Navbar from "@/app/components/Navbar";
 import CategoryNav from "@/app/components/CategoryNav";
 import Marquee from "@/app/components/Marquee";
+import Footer from "./components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,7 @@ export default function RootLayout({
       data-theme="light"
       className={`${geistSans.variable} ${geistMono.variable} min-h-full antialiased`}
     >
-      <body className="min-h-screen">
+      <body className="min-h-screen bg-[#FAFCFA]">
         <div className="sticky top-0 z-50 w-full bg-white shadow-sm">
           <Navbar />
           <CategoryNav />
@@ -41,6 +42,7 @@ export default function RootLayout({
 
         <main className="mx-auto w-full max-w-7xl">{children}</main>
         <ToastProvider />
+        <Footer />
       </body>
     </html>
   );

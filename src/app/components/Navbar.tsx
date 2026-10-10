@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "@/assets/logo-icon.png";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,18 +22,29 @@ export default function Navbar() {
   });
 
   const handleSignOut = async () => {
-    setSigningOut(true);
+  setSigningOut(true);
 
-    try {
-      await authClient.signOut();
-      setIsProfileOpen(false);
-      setIsMenuOpen(false);
-      router.replace("/");
-      router.refresh();
-    } finally {
-      setSigningOut(false);
+  try {
+    const result = await authClient.signOut();
+
+    if (result.error) {
+      toast.error(result.error.message || "সাইন আউট করা যায়নি!");
+      return;
     }
-  };
+
+    toast.success("সফলভাবে সাইন আউট হয়েছে!");
+
+    setIsProfileOpen(false);
+    setIsMenuOpen(false);
+
+    router.replace("/");
+    router.refresh();
+  } catch {
+    toast.error("সাইন আউট করতে সমস্যা হয়েছে!");
+  } finally {
+    setSigningOut(false);
+  }
+};
 
   return (
     <header className="w-full border-b border-gray-200 bg-white">

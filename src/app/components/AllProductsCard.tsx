@@ -30,7 +30,7 @@ const AllProducts = async () => {
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-8">
+    <section id="products" className="mx-auto max-w-7xl px-4 py-8">
       <h2 className="mb-5 text-2xl font-bold text-gray-900">সব পণ্য</h2>
 
       <p className="mb-6 text-sm text-gray-500">

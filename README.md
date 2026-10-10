@@ -1,108 +1,106 @@
-# Bazar Dor — বাজার দর
+🛒 BazarDor — বাজার দর
 
-A Bengali-language market price tracking web application for exploring everyday product prices, browsing categories, and checking products with rising or falling prices.
+বাংলাদেশের নিত্যপ্রয়োজনীয় পণ্যের দাম এক নজরে!
+
+BazarDor is a modern, responsive web application that helps users explore daily prices of essential products in Bangladesh, browse product categories, and compare market prices.
 
 ## 🔗 Live Demo
 
 - **Live Website:** Add your deployed website URL here
 - **Local Development:** [http://localhost:3000](http://localhost:3000)
 
-## ✨ Features
+✨ Key Features
 
-- Browse products and current prices
-- Explore product categories
-- View product details
-- Identify products with rising or falling prices
-- Bengali product names and price information
-- Email and password authentication
-- Google and GitHub sign-in
-- Profile and sign-out functionality
-- Responsive interface
+- Daily Price Tracking: View today's product prices and price changes.
+- Category-Based Browsing: Explore rice, lentils, oil, vegetables, fish, meat, eggs, and other essential products.
+- Product Details: View current prices, previous price comparisons, and market-wise price information.
+- User Authentication: Register and sign in using email/password, Google, or GitHub.
+- Responsive UI: Browse the application on mobile, tablet, and desktop, with loading skeletons and helpful error/empty states.
 
-## 🛠️ Tech Stack
+🧰 Technologies Used
 
-- Next.js (App Router)
+- Next.js
 - React
 - TypeScript
 - Tailwind CSS
-- DaisyUI
 - Better Auth
 - MongoDB
 - React Toastify
+- BazarDor REST API
 
-## 📡 API
+🚀 Getting Started
 
-**Base URL:** `https://api.abcz.workers.dev/api/bazardor`
+Prerequisites
 
-| Endpoint | Description |
-|---|---|
-| `/categories` | Get all categories |
-| `/products` | Get all products |
-| `/products/1` | Get a product by ID |
-| `/products?category=chal` | Filter products by category |
+- Node.js
+- npm
+- MongoDB connection string
+- OAuth credentials for Google and GitHub, if using social login
 
-## 🚀 Getting Started
+Installation
 
-First, run the development server:
+1. Clone the repository
 
-```bash
+git clone https://github.com/ProgrammingHero1/B14-A7-Bazar-Dor.git
+cd B14-A7-Bazar-Dor
+
+2. Install dependencies
+
+npm install
+
+3. Configure environment variables
+
+Create a ".env" file in the project root:
+
+BETTER_AUTH_URL=http://localhost:3000
+BETTER_AUTH_SECRET=your_generated_secret
+BETTER_AUTH_DB_URL=your_mongodb_connection_string
+
+BETTER_AUTH_GOOGLE_CLIENT_ID=your_google_client_id
+BETTER_AUTH_GOOGLE_SECRET=your_google_client_secret
+
+BETTER_AUTH_GITHUB_CLIENT_ID=your_github_client_id
+BETTER_AUTH_GITHUB_SECRET=your_github_client_secret
+
+NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3000
+
+Replace the example values with your actual credentials. Never commit real secrets to GitHub.
+
+4. Run the development server
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-### 1. Clone the Repository
+Open "http://localhost:3000" (http://localhost:3000) in your browser.
 
-```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-cd bazar-dor
+📡 API Integration
 
+BazarDor uses the following API for product and category data.
 
-📁 Project Structure
+Base URL: "https://api.abcz.workers.dev/api/bazardor"
 
-src/
-├── app/
-│   ├── api/
-│   │   └── auth/
-│   │       └── [...all]/
-│   │           └── route.ts
-│   ├── auth/
-│   │   ├── sign-in/
-│   │   │   └── page.tsx
-│   │   └── sign-up/
-│   │       └── page.tsx
-│   ├── category/
-│   │   └── [slug]/
-│   │       └── page.tsx
-│   ├── product/
-│   │   └── [slug]/
-│   │       └── page.tsx
-│   ├── profile/
-│   │   └── page.tsx
-│   ├── components/
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-├── assets/
-├── lib/
-│   ├── auth-client.ts
-│   └── auth.ts
-└── types/
-    └── index.ts
-```
+Endpoint| Purpose
+"/categories"| Get all categories
+"/categories/:id"| Get a category
+"/products"| Get all products
+"/products/:id"| Get a product by ID
+"/products?category=:category"| Filter products by category
 
-## 🔐 Security
+📱 Responsive Design
 
-- Keep `.env` out of version control.
-- Never publish database passwords, OAuth secrets, or authentication secrets.
-- Configure OAuth callback URLs for the correct local or deployed domain.
+The application uses responsive layouts to adapt product grids, navigation, forms, and product details to different screen sizes.
+
+🔐 Authentication
+
+Authentication is powered by Better Auth, with email/password authentication and configured Google and GitHub social login providers.
+
+📄 Project Information
+
+- Project: BazarDor — বাজার দর
+- Purpose: Explore essential product prices and compare market information.
+- Developed as: Programming Hero Assignment 7
 
 ---
 
-## 📄 License
+সকল দাম সম্ভাব্য; বাজারের অবস্থার ওপর নির্ভর করে পরিবর্তিত হয়।
 
-This project is currently not distributed under a specified open-source license.
+
