@@ -25,7 +25,7 @@ BazarDor is a modern, responsive web application that helps users explore daily 
 - Tailwind CSS
 - Better Auth
 - MongoDB
-- React Toastify
+- React-Hot-Toast
 - BazarDor REST API
 
 ## 🚀 Getting Started

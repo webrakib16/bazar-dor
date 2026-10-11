@@ -11,7 +11,7 @@ const Hero = () => {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-8 sm:py-12">
-      <div className="relative overflow-hidden rounded-3xl border border-green-100 bg-gradient-to-r from-green-50 via-white to-emerald-50 px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
+      <div className="relative overflow-hidden rounded-3xl border border-green-100 bg-linear-to-r from-green-50 via-white to-emerald-50 px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
         <div className="grid items-center gap-8 md:grid-cols-2">
           {/* Left Content */}
           <div className="relative z-10">

@@ -1,17 +1,21 @@
 "use client";
 
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 
 export default function ToastProvider() {
   return (
-    <ToastContainer
+    <Toaster
       position="top-right"
-      autoClose={3000}
-      newestOnTop
-      closeOnClick
-      pauseOnHover
-      draggable
-      theme="light"
+      reverseOrder={false}
+      toastOptions={{
+        duration: 3000,
+        style: {
+          background: "#ffffff",
+          color: "#1f2937",
+          border: "1px solid #e5e7eb",
+          borderRadius: "12px",
+        },
+      }}
     />
   );
 }

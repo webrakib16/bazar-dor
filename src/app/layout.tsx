@@ -1,22 +1,16 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Noto_Serif_Bengali } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
-import ToastProvider from "./components/ToastProvider";
 
 import Navbar from "@/app/components/Navbar";
 import CategoryNav from "@/app/components/CategoryNav";
 import Marquee from "@/app/components/Marquee";
 import Footer from "./components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const notoSerifBengali = Noto_Serif_Bengali({
+  subsets: ["latin", "bengali"],
 });
 
 export const metadata: Metadata = {
@@ -31,7 +25,7 @@ export default function RootLayout({
     <html
       lang="bn"
       data-theme="light"
-      className={`${geistSans.variable} ${geistMono.variable} min-h-full antialiased`}
+      className={`${notoSerifBengali.className} min-h-full antialiased`}
     >
       <body className="min-h-screen bg-[#FAFCFA]">
         <div className="sticky top-0 z-50 w-full bg-white shadow-sm">
@@ -40,9 +34,25 @@ export default function RootLayout({
           <Marquee />
         </div>
 
-        <main className="mx-auto w-full max-w-7xl">{children}</main>
-        <ToastProvider />
+        <main className="mx-auto w-full max-w-7xl">
+          {children}
+        </main>
+
         <Footer />
+
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "#ffffff",
+              color: "#1f2937",
+              border: "1px solid #e5e7eb",
+              borderRadius: "12px",
+            },
+          }}
+        />
       </body>
     </html>
   );

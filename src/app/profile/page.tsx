@@ -3,7 +3,7 @@
 import { useEffect, useState, type FormEvent, type ChangeEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 
 export default function ProfilePage() {
@@ -47,7 +47,9 @@ export default function ProfilePage() {
     reader.onload = () => {
       if (typeof reader.result === "string") {
         setAvatar(reader.result);
-        toast.info("ছবি নির্বাচন করা হয়েছে। সংরক্ষণ করতে আপডেট চাপুন।");
+        toast("ছবি নির্বাচন করা হয়েছে। সংরক্ষণ করতে আপডেট চাপুন।", {
+          icon: "ℹ️",
+        });
       }
     };
 

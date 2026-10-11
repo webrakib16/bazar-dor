@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "@/assets/logo-icon.png";
 import { authClient } from "@/lib/auth-client";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

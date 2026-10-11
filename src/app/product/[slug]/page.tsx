@@ -386,7 +386,7 @@ export default function ProductDetailsPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px] text-left text-sm">
+            <table className="w-full min-w-150 text-left text-sm">
               <thead>
                 <tr className="border-b border-gray-200 text-gray-500">
                   <th className="px-3 py-3 font-medium">বাজার</th>

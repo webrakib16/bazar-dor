@@ -70,7 +70,7 @@ const Marquee = async () => {
                 <span
                   key={product.id}
                   className="inline-flex items-center whitespace-nowrap text-sm">
-                  <span className="mr-2">{product.image}</span>
+                  <div className="mr-2">{product.image}</div>
                   <span>{product.nameBn}</span>
 
                   <span className="mx-2 font-semibold">
