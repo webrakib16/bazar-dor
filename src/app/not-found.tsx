@@ -17,7 +17,7 @@ return (
 
     <Link
       href="/"
-      className="mt-6 inline-flex items-center justify-center rounded-lg bg-green-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-700"
+      className="mt-5 inline-flex items-center justify-center rounded-lg bg-green-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-700"
     >
       ← হোম পেজে ফিরে যান
     </Link>
