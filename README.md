@@ -6,7 +6,7 @@ BazarDor is a modern, responsive web application that helps users explore daily 
 
 ## 🔗 Live Demo
 
-- **Live Website:** Add your deployed website URL here
+- **Live Website:** https://bazar-dor-h51v.vercel.app
 - **Local Development:** [http://localhost:3000](http://localhost:3000)
 
 ## ✨ Key Features

@@ -59,7 +59,7 @@ const Marquee = async () => {
           <MarqueeText
             className="py-2"
             direction="right"
-            duration={15}
+            duration={20}
           >
             {products.map((product, index) => {
               const unit =
