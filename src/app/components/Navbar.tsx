@@ -70,7 +70,7 @@ export default function Navbar() {
           <div className="hidden items-center gap-3 sm:flex">
             {isPending ? (
               <span className="text-sm text-gray-500">লোড হচ্ছে...</span>
-            ) : user ? (
+            ) : user ?(
               <div className="relative">
                 <button
                   type="button"
