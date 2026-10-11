@@ -24,7 +24,7 @@ const Marquee = async () => {
   try {
     const res = await fetch(
       "https://api.abcz.workers.dev/api/bazardor/products",
-      { cache: "no-store" }
+      {next:{revalidate:100}}
     );
 
     if (!res.ok) {
@@ -70,7 +70,7 @@ const Marquee = async () => {
                 <span
                   key={product.id}
                   className="inline-flex items-center whitespace-nowrap text-sm">
-                  <div className="mr-2">{product.image}</div>
+                  <div className="mr-2"><p>{product.image || ""}</p></div>  {/* Hydration Error */}
                   <span>{product.nameBn}</span>
 
                   <span className="mx-2 font-semibold">
